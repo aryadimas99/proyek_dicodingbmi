@@ -66,130 +66,126 @@ class _StartScreenState extends State<StartScreen> {
       body: GradientContainer(
         const Color.fromARGB(255, 30, 16, 16),
         primaryColor,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: GenderCart(
-                          isSelected: isMaleSelected == true,
-                          icon: Icons.male,
-                          label: "Male",
-                          onTap: () {
-                            setState(() {
-                              isMaleSelected = true;
-                            });
-                          },
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                // 👇 Bagian yang bisa discroll
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: GenderCart(
+                                isSelected: isMaleSelected == true,
+                                icon: Icons.male,
+                                label: "Male",
+                                onTap: () =>
+                                    setState(() => isMaleSelected = true),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: GenderCart(
+                                isSelected: isMaleSelected == false,
+                                icon: Icons.female,
+                                label: "Female",
+                                onTap: () =>
+                                    setState(() => isMaleSelected = false),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: GenderCart(
-                          isSelected: isMaleSelected == false,
-                          icon: Icons.female,
-                          label: "Female",
-                          onTap: () {
-                            setState(() {
-                              isMaleSelected = false;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 25.0),
-                  Container(
-                    height: 180,
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Height",
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontFamily: 'Staatliches',
+                        const SizedBox(height: 25),
+
+                        // height card
+                        Container(
+                          height: 180,
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Height",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontFamily: 'Staatliches',
+                                  ),
+                                ),
+                                Text(
+                                  "${_currentHeight.toStringAsFixed(0)} cm",
+                                  style: const TextStyle(
+                                    fontSize: 40,
+                                    fontFamily: 'Oxygen',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Slider(
+                                  value: _currentHeight,
+                                  min: 100,
+                                  max: 250,
+                                  divisions: 150,
+                                  thumbColor: Colors.red,
+                                  activeColor: Colors.red,
+                                  inactiveColor: inactiveColor,
+                                  label:
+                                      "${_currentHeight.toStringAsFixed(0)} cm",
+                                  onChanged: (v) =>
+                                      setState(() => _currentHeight = v),
+                                ),
+                              ],
                             ),
                           ),
-                          Text(
-                            "${_currentHeight.toStringAsFixed(0)} cm",
-                            style: const TextStyle(
-                              fontSize: 40,
-                              fontFamily: 'Oxygen',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                        ),
+
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: BodyCart(
+                                label: "Weight",
+                                value: _weight,
+                                onIncrement: () => setState(() => _weight++),
+                                onDecrement: () => setState(() {
+                                  if (_weight > 0) _weight--;
+                                }),
+                              ),
                             ),
-                          ),
-                          Slider(
-                            value: _currentHeight,
-                            min: 100,
-                            max: 250,
-                            divisions: 150,
-                            thumbColor: Colors.red,
-                            activeColor: Colors.red,
-                            inactiveColor: inactiveColor,
-                            label: "${_currentHeight.toStringAsFixed(0)} cm",
-                            onChanged: (double newValue) {
-                              setState(() {
-                                _currentHeight = newValue;
-                              });
-                            },
-                          )
-                        ],
-                      ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: BodyCart(
+                                label: "Age",
+                                value: _age,
+                                onIncrement: () => setState(() => _age++),
+                                onDecrement: () => setState(() {
+                                  if (_age > 0) _age--;
+                                }),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 16.0),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: BodyCart(
-                          label: "Weight",
-                          value: _weight,
-                          onIncrement: () {
-                            setState(() {
-                              _weight++;
-                            });
-                          },
-                          onDecrement: () {
-                            setState(() {
-                              if (_weight > 0) _weight--;
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 16.0),
-                      Expanded(
-                        child: BodyCart(
-                          label: "Age",
-                          value: _age,
-                          onIncrement: () {
-                            setState(() {
-                              _age++;
-                            });
-                          },
-                          onDecrement: () {
-                            setState(() {
-                              if (_age > 0) _age--;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-                  ElevatedButton(
+                ),
+
+                const SizedBox(height: 16),
+
+                // 👇 Tombol fixed di bawah
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
                     onPressed: _calculateBMI,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
@@ -199,20 +195,15 @@ class _StartScreenState extends State<StartScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       padding: const EdgeInsets.symmetric(
-                        vertical: 15,
-                        horizontal: 30,
-                      ),
+                          vertical: 15, horizontal: 30),
                     ),
                     child: const Text(
                       "Calculate",
-                      style: TextStyle(
-                        fontFamily: 'Staatliches',
-                        fontSize: 20,
-                      ),
+                      style: TextStyle(fontFamily: 'Staatliches', fontSize: 20),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
